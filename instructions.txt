@@ -1,0 +1,16 @@
+INSTRUCTIONS: EVERYTHING NEEDS TO FOLLOW THE SPECIFIC FORMAT OF:
+
+<quantity>x <item description> (<serial numbers separated by a comma and space>)
+
+Separate boxes with a new line and a #
+
+e.g.
+
+3x Really Awesome Item (1234, 5678, 1112)
+1x Item I do have but have no serials but am still putting empty parentheses for ()
+0x Item I don't have ()
+100x Expendable item ()
+#
+4x Item in a new box (1, 2, 3, 4)
+1x I am emphasizing the importance of a comma AND A SPACE (1, 2, 3, 4)
+2x If the items were like this (1,2,3,4,5) <---- this would NOT WORK

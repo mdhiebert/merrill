@@ -1,0 +1,18 @@
+Admin Data:
+OVERALL_DESCRIPTION: TSO Loadout
+2062_FROM: TSD
+2062_TO:
+1750_PACKED_BY: 1LT HIEBERT, MICHAEL
+--------------------------------------------------------------------------------
+1x Item 1 (123)
+2x Other Item (897, 900000000000)
+10x Final Item in Box 1 (10000, 10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009)
+#
+3x Testing another Box ()
+5x Spare Parts for this other stuff ()
+1x Serialized Item (123456789)
+#
+1x Weapon (Y12346)
+1x Suppressor (X1234567)
+1x Sidearm (0-1234-1234)
+1x Just Making things Different (111111111)
