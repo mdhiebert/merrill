@@ -1,0 +1,8 @@
+__pycache__/
+
+output/*.pdf
+assets/example_*.json
+
+tsd/*
+
+merrill/constants.py
