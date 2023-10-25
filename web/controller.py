@@ -1,7 +1,7 @@
-import flask
+from flask import Flask, render_template, url_for
 
-app = flask(__name__)
+app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return 'Index Page'
+    return render_template('index.html')
