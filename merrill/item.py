@@ -10,35 +10,38 @@ class Item:
             This should be a string that was created by calling `str()` on an `Item` object.
         '''
 
-        pattern = re.compile(r'(?P<quantity>\d+)x\s+(?P<description>.+)\s+\((?P<serials>((.+)(,\s*.+)*)?)\)')
+        pattern = re.compile(r'(?P<hazardous>\*?)(?P<quantity>\d+)x\s+(?P<description>.+)\s+\((?P<serials>((.+)(,\s*.+)*)?)\)')
         match = pattern.match(s)
 
         if match is None: raise ValueError('Invalid input - string does not match expected format (e.g. "2x Apple iPhone (1234, 5678)")')
 
+        is_hazardous = match.group('hazardous') == '*'
         quantity = int(match.group('quantity'))
         description = match.group('description')
         serials = match.group('serials').split(',')
 
-        return Item(description, serials, quantity)
+        return Item(description, serials, quantity, is_hazardous = is_hazardous)
 
-    def __init__(self, item_description: str, serial_numbers: typing.List[str], quantity: int):
+    def __init__(self, item_description: str, serial_numbers: typing.List[str], quantity: int, is_hazardous: bool = False):
         self.item_description = item_description
         self.serial_numbers = self._sanitize_serial_numbers(serial_numbers)
-        self.quantity = quantity
 
+        self.quantity = quantity
         if self.quantity < 0: raise ValueError('Invalid quantity - must be greater than or equal to 0')
+
+        self.is_hazardous = is_hazardous
 
     def _sanitize_serial_numbers(self, serial_numbers: typing.List[str]):
         assert isinstance(serial_numbers, list), 'serial_numbers must be a list'
         return list(sorted([sn.strip() for sn in serial_numbers if sn]))
 
     def __str__(self):
-        return f'{self.quantity}x {self.item_description} ({", ".join(self.serial_numbers)})'
+        return f'{"*" if self.is_hazardous else ""}{self.quantity}x {self.item_description} ({", ".join(self.serial_numbers)})'
     
     def __eq__(self, __value: object) -> bool:
         if not isinstance(__value, Item):
             return False
-        return self.item_description == __value.item_description and self.serial_numbers == __value.serial_numbers and self.quantity == __value.quantity
+        return self.item_description == __value.item_description and self.serial_numbers == __value.serial_numbers and self.quantity == __value.quantity and self.is_hazardous == __value.is_hazardous
     
     @property
     def formatted_str(self):

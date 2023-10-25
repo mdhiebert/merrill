@@ -10,6 +10,14 @@ class TestItem(unittest.TestCase):
         self.assertEqual(item.serial_numbers, ['1234', '5678'])
         self.assertEqual(item.quantity, 2)
 
+    def test_from_str_is_hazardous(self):
+        item_str = '*2x Apple iPhone (1234, 5678)'
+        item = Item.from_str(item_str)
+        self.assertEqual(item.item_description, 'Apple iPhone')
+        self.assertEqual(item.serial_numbers, ['1234', '5678'])
+        self.assertEqual(item.quantity, 2)
+        self.assertTrue(item.is_hazardous)
+
     def test_init(self):
         item = Item('Apple iPhone', ['1234', '5678'], 2)
         self.assertEqual(item.item_description, 'Apple iPhone')
