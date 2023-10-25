@@ -1,8 +1,8 @@
-from merrill import Merill
+from merrill import Merrill
 
 with open('example.txt') as f:
     text = f.read()
 
-m = Merill.from_text(text)
+m = Merrill.from_text(text)
 
 m.generate_paperwork()

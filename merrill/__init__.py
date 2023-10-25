@@ -73,7 +73,7 @@ class Merrill:
         for i,box in enumerate(self.boxes_of_items):
             box_number = i + 1
 
-            # Generate 2062
+            # Generate 2062s
             hr = HandReceipt(
                 name_from = self.hand_receipt_from, 
                 name_to = self.hand_receipt_to, 
