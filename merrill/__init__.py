@@ -96,33 +96,35 @@ class Merrill:
             )
             
             pl.write_to_pdf(CONFIG.PDF_1750_FILEPATH, f'{output_directory}/1750_{box_number}.pdf')
-            
-            # Generate HAZDEC
-            # TODO
-            hd = HazardousDeclaration(
-                shipper = CONFIG.SHIPPER_ADDRESS,
-                shipper_phone_number = None,
-                dsn = None,
-                air_waybill_number = None,
-                page_number = None,
-                total_pages = None,
-                shipper_reference_number_tcn = None,
-                consignee = CONFIG.CONSIGNEE_INFORMATION,
-                is_exclusive_to_cargo_aircraft = None,
-                airport_of_departure = CONFIG.AIRPORT_OF_DEPARTURE,
-                destination_airport = CONFIG.DESTINATION_AIRPORT,
-                is_radioactive = None,
-                unit_id_number = None,
-                proper_shipping_name = None,
-                class_or_division = None,
-                packing_group = None,
-                quantity_and_type_of_packing = None,
-                packing_instructions = None,
-                authorization = None,
-                additional_handling_information = CONFIG.ADDITIONAL_INFO,
-                emergency_telephone_number = CONFIG.EMERGENCY_CONTACT_INFO,
-                name_of_signatory = CONFIG.CEMA_HMO,
-                place_and_date = CONFIG.PLACE_OF_SIGNATURE + f'\n{today_as_army_date().upper()}'
-            )
 
-            hd.write_to_pdf(CONFIG.PDF_HAZDEC_FILEPATH, f'{output_directory}/HAZDEC.pdf')
+            hazardous_items_in_box = [item for item in box if item.is_hazardous]
+            
+            if len(hazardous_items_in_box) > 0:
+                hd = HazardousDeclaration(
+                    shipper = CONFIG.SHIPPER_ADDRESS,
+                    shipper_phone_number = None,
+                    dsn = None,
+                    air_waybill_number = None,
+                    page_number = None,
+                    total_pages = None,
+                    shipper_reference_number_tcn = None,
+                    consignee = CONFIG.CONSIGNEE_INFORMATION,
+                    is_exclusive_to_cargo_aircraft = None,
+                    airport_of_departure = CONFIG.AIRPORT_OF_DEPARTURE,
+                    destination_airport = CONFIG.DESTINATION_AIRPORT,
+                    is_radioactive = None,
+                    unit_id_number = None,
+                    proper_shipping_name = None,
+                    class_or_division = None,
+                    packing_group = None,
+                    quantity_and_type_of_packing = None,
+                    packing_instructions = None,
+                    authorization = None,
+                    additional_handling_information = CONFIG.ADDITIONAL_INFO,
+                    emergency_telephone_number = CONFIG.EMERGENCY_CONTACT_INFO,
+                    name_of_signatory = CONFIG.CEMA_HMO,
+                    place_and_date = CONFIG.PLACE_OF_SIGNATURE + f'\n{today_as_army_date().upper()}',
+                    items = hazardous_items_in_box
+                )
+
+                hd.write_to_pdf(CONFIG.PDF_HAZDEC_FILEPATH, f'{output_directory}/HAZDEC_{box_number}.pdf')

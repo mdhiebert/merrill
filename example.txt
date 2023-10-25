@@ -47,11 +47,11 @@ OVERALL_DESCRIPTION: TSO Loadout
 10x Final Item in Box 39 (10000, 10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009)
 1x Final Item lets see (1)
 #
-3x Testing another Box ()
-5x Spare Parts for this other stuff ()
+*3x Testing another Box ()
+*5x Spare Parts for this other stuff ()
 1x Serialized Item (123456789)
 #
-1x Weapon (Y12346)
+*1x Weapon (Y12346)
 1x Suppressor (X1234567)
 1x Sidearm (0-1234-1234)
 1x Just Making things Different (111111111)
