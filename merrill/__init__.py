@@ -66,8 +66,6 @@ class Merrill:
 
         self.boxes_of_items = boxes_of_items
 
-        print(boxes_of_items)
-
     def generate_paperwork(self, output_directory = 'output'):
 
         for i,box in enumerate(self.boxes_of_items):
@@ -81,11 +79,11 @@ class Merrill:
                 end_item_description = self.overall_description, 
                 publication_number = None, publication_date = None, quantity = None, 
                 items = box
-                )
+            )
             
             hr.write_to_pdf(CONFIG.PDF_2062_FILEPATH, f'{output_directory}/2062_{box_number}.pdf')
 
-            # Generate 1750
+            # Generate 1750s
             pl = PackingList(
                 packed_by = self.packed_by,
                 number_of_boxes = len(self.boxes_of_items),
@@ -93,8 +91,9 @@ class Merrill:
                 end_item = self.overall_description,
                 date = today_as_army_date(),
                 page_number = None, total_pages = None,
-                items = box
-                )
+                items = box,
+                box_number = box_number
+            )
             
             pl.write_to_pdf(CONFIG.PDF_1750_FILEPATH, f'{output_directory}/1750_{box_number}.pdf')
             

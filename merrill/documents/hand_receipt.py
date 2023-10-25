@@ -51,7 +51,7 @@ class HandReceipt:
         '''
             Write the contents of this `HandReceipt` object to a PDF file at the given `filepath`.
 
-            TODO lots of redundant code, could be cleaned up
+            TODO lots of redundant code, could be cleaned up.
         '''
         reader = PdfReader(base_filepath)
         page_1 = reader.pages[0]
