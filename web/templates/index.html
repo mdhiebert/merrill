@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+<h1>Form Generator</h1>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+<h1>Current Inventory</h1>
+<table>
+    <tr>
+        <th>Item</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <a href="">Update - Test Change</a>
+        </td>
+    </tr>
+</table>
+<form action="/" method="POST">
+    <input type="text" name="content" id="content">
+    <input type="submit" value="Add Item">
+</form>
+</div>
+{% endblock %}
