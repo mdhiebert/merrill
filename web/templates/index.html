@@ -5,22 +5,75 @@
 
 {% block body %}
 <div class="content">
-<h1>Current Inventory</h1>
 <table>
     <tr>
-        <th>Item</th>
-        <th></th>
+        <th>Current Admin Info</th>
+        <th>Update Admin Info</th>
     </tr>
     <tr>
-        <td></td>
         <td>
-            <a href="">Update - Test Change</a>
+            TO: {{ currentAdmin.admin_to }}<br><br>
+            FROM: {{ currentAdmin.admin_from }}<br><br>
+            PACKED BY: {{ currentAdmin.admin_packedby }}<br><br>
+        </td>
+        <td>
+            <form action="/update_admin" method="POST" id="adminUpdate">
+                    <label for="to">TO:</label><br>
+                    <input type="text" id="to" name="to"><br><br>
+                    <label for="from">FROM:</label><br>
+                    <input type="text" id="from" name="from"><br><br>       
+                    <label for="packed_by">PACKED BY:</label><br>
+                    <input type="text" id="packed_by" name="packed_by"><br><br>
+                    <input type="submit" value="Submit">          
+            </form>
         </td>
     </tr>
+</table>    
+<br><br><br>
+<table id="testTable">
+    <tr>
+        <th>QTY</th>
+        <th>DESCRIPTION</th>
+        <th style="width:500px">SERIAL NUMBERS</th>
+    </tr>
+    {% for x,y in itemsEntered.items() %}
+        <tr>
+            <td> {{ y[0] }} </td>
+            <td> {{ y[1] }} </td>
+            <td> {{ y[2] }} </td>
+            <td onclick="remRow(this)"><button>Delete</button></td>
+        </tr>
+    {% endfor %}
 </table>
-<form action="/" method="POST">
-    <input type="text" name="content" id="content">
-    <input type="submit" value="Add Item">
+<button type="button" onclick="addRow()">Add Row</button>
+<button type="submit" form="adminUpdate">Submit Changes</button>
+<button type="submit" form="genTxt">Generate .txt File</button>
+<form action="/generate_txt" method="POST" id="genTxt">
 </form>
+<script>
+    function addRow() {
+        var table = document.getElementById("testTable");
+        var row = table.insertRow();
+        for (var i = 0; i < 3; i++) {
+            var child = row.insertCell(i);
+            x = table.rows.length;
+            x = x-1;
+            switch (i) {
+                case 0:
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="qty'+ x + '">';
+                    break;
+                case 1:
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="desc'+ x + '">';
+                    break;
+                case 2:
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="serial'+ x + '">';
+                    break;
+            }  
+        }
+    }
+    function remRow(x) {
+        document.getElementById("testTable").deleteRow(x.parentNode.rowIndex);
+        }
+</script>
 </div>
 {% endblock %}
