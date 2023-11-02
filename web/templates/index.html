@@ -1,79 +1,136 @@
 {% extends 'base.html' %}
 {% block head %}
-<h1>Form Generator</h1>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"> <img src="/static/images/DUI.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        MERRILL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 {% endblock %}
 
 {% block body %}
-<div class="content">
-<table>
+<div class="container">
+<div class="row gy-5">
+    <div class="col-auto">
+        <div class="card">
+            <div class="card-header"><b>Current Admin Info</b></div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">TO: {{ currentAdmin.admin_to }}</li>
+                <li class="list-group-item">FROM: {{ currentAdmin.admin_from }}</li>
+                <li class="list-group-item">PACKED BY: {{ currentAdmin.admin_packedby }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div class="card" >
+            <div class="card-header"><b>Update Admin Info</b></div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="to" class="form-label">TO:</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" form="adminUpdate" id="to" name="to">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="from" class="form-label">FROM:</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" form="adminUpdate" id="from" name="from">
+                        </div>
+                    </div>                    
+                </li>
+                <li class="list-group-item">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="packed_by" class="form-label">PACKED BY:</label>   
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" form="adminUpdate" id="packed_by" name="packed_by">
+                        </div>
+                    </div> 
+                </li>
+            </ul>
+            
+        </div>
+        <form action="/update_admin" method="POST" id="adminUpdate"></form>
+        <br><button type="submit" class="btn btn-secondary" form="adminUpdate">Submit</button>
+    </div>    
+</div>
+<div class="row"><br><br><br></div>
+<div class="row">
+<table class="table table-striped" id="testTable">
     <tr>
-        <th>Current Admin Info</th>
-        <th>Update Admin Info</th>
+        <th scope="col">QTY</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col" style="width:500px">SERIAL NUMBERS (separate with ", " -> e.g. "1, 2, 3")</th>
+        <th scope="col">BOX</th>
+        <th></th>
     </tr>
-    <tr>
-        <td>
-            TO: {{ currentAdmin.admin_to }}<br><br>
-            FROM: {{ currentAdmin.admin_from }}<br><br>
-            PACKED BY: {{ currentAdmin.admin_packedby }}<br><br>
-        </td>
-        <td>
-            <form action="/update_admin" method="POST" id="adminUpdate">
-                    <label for="to">TO:</label><br>
-                    <input type="text" id="to" name="to"><br><br>
-                    <label for="from">FROM:</label><br>
-                    <input type="text" id="from" name="from"><br><br>       
-                    <label for="packed_by">PACKED BY:</label><br>
-                    <input type="text" id="packed_by" name="packed_by"><br><br>
-                    <input type="submit" value="Submit">          
-            </form>
-        </td>
-    </tr>
-</table>    
-<br><br><br>
-<table id="testTable">
-    <tr>
-        <th>QTY</th>
-        <th>DESCRIPTION</th>
-        <th style="width:500px">SERIAL NUMBERS</th>
-    </tr>
-    {% for x,y in itemsEntered.items() %}
+    {% for x in showEquipment %}
         <tr>
-            <td> {{ y[0] }} </td>
-            <td> {{ y[1] }} </td>
-            <td> {{ y[2] }} </td>
-            <td onclick="remRow(this)"><button>Delete</button></td>
+            <td> {{x.ITEM_QUANTITY}}</td>
+            <td> {{x.ITEM_DESCRIPTION}} </td>
+            <td> {{x.SERIAL_NUMBER}} </td>
+            <td> {{x.BOX_NUMBER}} </td>
+            <td><button onClick="remRow(this)">Delete</button>
+                <input type="hidden" form="adminUpdate" name="UUID" value="{{x.UUID}}">
+            </td>
         </tr>
     {% endfor %}
 </table>
-<button type="button" onclick="addRow()">Add Row</button>
-<button type="submit" form="adminUpdate">Submit Changes</button>
-<button type="submit" form="genTxt">Generate .txt File</button>
-<form action="/generate_txt" method="POST" id="genTxt">
-</form>
+</div>
+<div class="row">
+    <div class="col"><button type="button" class="btn btn-secondary" onclick="addRow()">Add Row</button>
+    </div>
+    <div class="col"><button type="submit" class="btn btn-secondary" form="adminUpdate">Submit Changes</button>
+    </div>
+    <div class="col"><button type="submit" class="btn btn-secondary" form="genTxt">Generate .txt File</button>
+    </div>
+<form action="/generate_txt" method="POST" id="genTxt"></form>
+<form action="/delete_row" method="POST" id="delRow"></form>
 <script>
     function addRow() {
         var table = document.getElementById("testTable");
         var row = table.insertRow();
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
             var child = row.insertCell(i);
             x = table.rows.length;
             x = x-1;
             switch (i) {
                 case 0:
-                    child.innerHTML = '<input type="text" form="adminUpdate" name="qty'+ x + '">';
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="newQTY_'+ x + '">';
                     break;
                 case 1:
-                    child.innerHTML = '<input type="text" form="adminUpdate" name="desc'+ x + '">';
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="newDESC_'+ x + '">';
                     break;
                 case 2:
-                    child.innerHTML = '<input type="text" form="adminUpdate" name="serial'+ x + '">';
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="newSERIAL_'+ x + '">';
+                    break;
+                case 3:
+                    child.innerHTML = '<input type="text" form="adminUpdate" name="newBOX_'+ x + '">';
                     break;
             }  
         }
     }
     function remRow(x) {
-        document.getElementById("testTable").deleteRow(x.parentNode.rowIndex);
+        document.getElementById("testTable").deleteRow(x.parentNode.parentNode.rowIndex);
         }
 </script>
+</div>
 </div>
 {% endblock %}
